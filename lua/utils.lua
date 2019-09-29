@@ -4,6 +4,9 @@ function listToString(t, singleSkipBracket, toStringFunction, sortFunction)
     if type(t) ~= 'table' then
         return tostring(t)
     end
+    if #t == 0 then
+        return '{}'
+    end
     if not toStringFunction then toStringFunction = tostring end
     local separator = false
     local str = ''

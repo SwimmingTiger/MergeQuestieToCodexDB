@@ -21,20 +21,26 @@ require "objectDB"
 require "TEMP_questie4items"
 require "corrections"
 
-if QuestieCorrections.objectFixes[ObjectID] then
-    for k,v in pairs(QuestieCorrections.objectFixes[ObjectID]) do
-        QuestieDB.objectData[ObjectID][k] = v
+for ObjectID,_ in pairs(QuestieDB.objectData) do
+    if QuestieCorrections.objectFixes[ObjectID] then
+        for k,v in pairs(QuestieCorrections.objectFixes[ObjectID]) do
+            QuestieDB.objectData[ObjectID][k] = v
+        end
     end
 end
 
-if QuestieCorrections.questFixes[QuestID] then
-    for k,v in pairs(QuestieCorrections.questFixes[QuestID]) do
-        QuestieDB.questData[QuestID][k] = v
+for QuestID,_ in pairs(QuestieDB.questData) do
+    if QuestieCorrections.questFixes[QuestID] then
+        for k,v in pairs(QuestieCorrections.questFixes[QuestID]) do
+            QuestieDB.questData[QuestID][k] = v
+        end
     end
 end
 
-if QuestieCorrections.npcFixes[NPCID] then
-    for k,v in pairs(QuestieCorrections.npcFixes[NPCID]) do
-        QuestieDB.npcData[NPCID][k] = v
+for NPCID,_ in pairs(QuestieDB.npcData) do
+    if QuestieCorrections.npcFixes[NPCID] then
+        for k,v in pairs(QuestieCorrections.npcFixes[NPCID]) do
+            QuestieDB.npcData[NPCID][k] = v
+        end
     end
 end
