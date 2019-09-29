@@ -44,10 +44,9 @@ local function compQuestsTarget(questId, new, old, parent, key, firstCall)
             end
         end
         if new[parent][key] then
-            local merged = mergeSet(new[parent][key], old[parent][key])
-            if not listCmp(merged, old[parent][key]) then
+            if not listCmp(new[parent][key], old[parent][key]) then
                 printf('D[%d].%s.%s=%s --old: %s', questId, parent, key,
-                    listToString(merged),
+                    listToString(new[parent][key]),
                     listToString(old[parent][key]))
             end
         end
@@ -57,12 +56,10 @@ end
 local function compQuestsListOrValue(questId, new, old, key, singleSkipBracket)
     if new[key] then
         if old[key] then
-            local merged = mergeSet(new[key], old[key])
-            local oldValue = valueToTable(old[key])
-            if not listCmp(merged, oldValue) then
+            if not listCmp(new[key], old[key]) then
                 printf('D[%d].%s=%s --old: %s', questId, key,
-                    listToString(merged, singleSkipBracket),
-                    listToString(oldValue, singleSkipBracket))
+                    listToString(new[key], singleSkipBracket),
+                    listToString(old[key], singleSkipBracket))
             end
         else
             printf('D[%d].%s=%s --old: %s', questId, key,

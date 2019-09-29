@@ -5,7 +5,7 @@ function listToString(t, singleSkipBracket, toStringFunction, sortFunction)
         return tostring(t)
     end
     if #t == 0 then
-        return '{}'
+        return 'nil'
     end
     if not toStringFunction then toStringFunction = tostring end
     local separator = false
@@ -47,11 +47,11 @@ function deepCopy(orig)
 end
 
 function listCmp(a, b)
-    if type(a) ~= type(b) then
-        return false
-    end
     if type(a) ~= 'table' then
-        return a == b
+        a = {a}
+    end
+    if type(b) ~= 'table' then
+        b = {b}
     end
     if tablelen(a) ~= tablelen(b) then
         return false

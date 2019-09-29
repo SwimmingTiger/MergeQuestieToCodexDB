@@ -57,10 +57,34 @@ for _, questId in pairs(questIds) do
         printf('["next"]=%d,', v[k.nextQuestInChain])
     end
 
+    local objectItems = {}
+    if v[k.objectives] and v[k.objectives][3] then
+        for _,v in pairs(v[k.objectives][3]) do
+            table.insert(objectItems, v[1])
+        end
+    end
+    if v[k.startedBy] and v[k.startedBy][3] then
+        objectItems = mergeSet(objectItems, v[k.startedBy][3])
+    end
+    if v[k.sourceItemId] then
+        objectItems = mergeSet(objectItems, v[k.sourceItemId])
+    end
+    if v[k.requiredSourceItems] then
+        objectItems = mergeSet(objectItems, v[k.requiredSourceItems])
+    end
+
+    if #objectItems > 0 then
+        if not v[k.objectives] then
+            v[k.objectives] = {nil, nil, objectItems}
+        else
+            v[k.objectives][3] = objectItems
+        end
+    end
+    
     if v[k.objectives] and (v[k.objectives][1] or v[k.objectives][2] or v[k.objectives][3]) then
         print('["obj"]={')
         if v[k.objectives][3] then
-            printf('["I"]=%s,', listToString(v[k.objectives][3], false, getValue1, sortByValue1))
+            printf('["I"]=%s,', listToString(v[k.objectives][3], false))
         end
         if v[k.objectives][2] then
             printf('["O"]=%s,', listToString(v[k.objectives][2], false, getValue1, sortByValue1))
@@ -68,18 +92,6 @@ for _, questId in pairs(questIds) do
         if v[k.objectives][1] then
             printf('["U"]=%s,', listToString(v[k.objectives][1], false, getValue1, sortByValue1))
         end
-        print('},')
-    elseif v[k.startedBy] and v[k.startedBy][3] then
-        print('["obj"]={')
-        printf('["I"]=%s,', listToString(v[k.startedBy][3]))
-        print('},')
-    elseif v[k.sourceItemId] then
-            print('["obj"]={')
-            printf('["I"]={%d},', v[k.sourceItemId])
-            print('},')
-    elseif v[k.requiredSourceItems] then
-        print('["obj"]={')
-        printf('["I"]=%s,', listToString(v[k.requiredSourceItems]))
         print('},')
     end
 
