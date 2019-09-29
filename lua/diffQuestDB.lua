@@ -23,7 +23,8 @@ CodexDB = nil
 
 -- output some meta info
 print('-- A script to merge Questie questDB to ClassicCodex')
-printf('-- Quests in ClassicCodex DB: %d, in Questie DB: %d', tablelen(oldQuests), tablelen(newQuests))
+printf('-- ClassicCodex git tag: %s, quest num: %d', tostring(arg[1]), tablelen(oldQuests))
+printf('-- Questie git tag: %s, quest num: %d', tostring(arg[2]), tablelen(newQuests))
 print('local D = CodexDB.quests.data')
 
 --[[ Compare item/object/unit list of quests and output differences as lua script
