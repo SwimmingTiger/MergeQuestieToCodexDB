@@ -10,18 +10,18 @@ ClassicCodex stores some information as binary values for some (unknown/historic
 
 ### Races
 
-| Race     | Value | Comment |
-| ---------|:-----:|-------- |
-| Human    | 1     |
-| Orc      | 2     |
-| Dwarf    | 4     |
-| Nightelf | 8     |
-| Undead   | 16    |
-| Tauren   | 32    |
-| Gnome    | 64    |
-| Troll    | 128   |
-| Alliance | 77    | =1+4+8+64 |
-| Horde    | 178   | =2+16+32+128 |
+| Race     | Value | Comment        |
+| ---------|:-----:|--------------- |
+| Human    | 1     |                |
+| Orc      | 2     |                |
+| Dwarf    | 4     |                |
+| Nightelf | 8     |                |
+| Undead   | 16    |                |
+| Tauren   | 32    |                |
+| Gnome    | 64    |                |
+| Troll    | 128   |                |
+| Alliance | 77    | =1+4+8+64      |
+| Horde    | 178   | =2+16+32+128   |
 | All      | 255   | =1+2+4+...+128 |
 
 ### Classes
@@ -80,7 +80,19 @@ CodexDB["quests"]["data"]={
     ["race"] = playerRaceMask,
     ["skill"] = requiredSkillId or {["id"]=requiredSkillId, ["min"]=minSkillValue},
     ["repu"] = {["id"]=requiredReputationFactionId, ["min"]=minReputationValue},
+
+    -- Hide the quest because it can't be picked up at the current stage
+    ["hide"] = true,
   },
   ...
 }
 ```
+
+Each field may not exist. For example, `hide` may not exist to indicate that the quest should not be hidden.
+
+| Variate    | Value Type          |
+| -----------|:-------------------:|
+| xxx`Id`    | int                 |
+| xxx`Level` | int                 |
+| xxx`Value` | int                 |
+| xxx`Mask`  | int, bitmask values |

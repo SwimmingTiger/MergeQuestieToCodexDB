@@ -41,6 +41,10 @@ for _, questId in pairs(questIds) do
         printf('["excl"]=%s,', listToString(v[k.exclusiveTo]))
     end
 
+    if QuestieCorrections.hiddenQuests[questId] then
+        print('["hide"]=true,')
+    end
+
     if v[k.questLevel] > 0 then
         printf('["lvl"]=%d,', v[k.questLevel])
     end
@@ -86,7 +90,7 @@ for _, questId in pairs(questIds) do
         printf('["preg"]=%s,', listToString(v[k.preQuestGroup]))
     end
     
-    if v[k.requiredRaces] then
+    if v[k.requiredRaces] and v[k.requiredRaces]~=0 then
         printf('["race"]=%d,', v[k.requiredRaces])
     end
     
