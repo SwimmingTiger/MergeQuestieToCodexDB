@@ -108,6 +108,7 @@ CodexDB["quests"]["data"]={
     ["repu"] = {["id"]=requiredReputationFactionId, ["min"]=minReputationValue},
 
     -- Hide the quest because it can't be picked up at the current stage
+    -- Also included quests related to WoW festive seasons or PVP
     ["hide"] = true,
   },
   ...
