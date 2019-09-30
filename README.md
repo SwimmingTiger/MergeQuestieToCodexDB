@@ -1,6 +1,32 @@
 # Merge Questie To Codex DB
 A series of scripts that merge the [Questie](https://github.com/AeroScripts/QuestieDev) database into the [ClassicCodex](https://github.com/project-classic/ClassicCodex) database.
 
+# Usage
+Running on WSL or Linux or Unix like system, `git` and `lua` need to be installed.
+
+```
+# Install git and lua on Ubuntu
+apt update
+apt install -y git lua5.1
+
+# Clone repos
+git clone https://github.com/AeroScripts/QuestieDev.git
+git clone https://github.com/SwimmingTiger/ClassicCodex.git
+git clone https://github.com/SwimmingTiger/MergeQuestieToCodexDB.git
+
+# Create dirs and export patches
+cd MergeQuestieToCodexDB
+mkdir tmp out
+bash ./exportDatabaseDiff.sh
+
+# You will find the patch files here
+ls ./out/
+
+# Use the new patch files
+cp ./out/* ../ClassicCodex/db-patches/
+ls ../ClassicCodex/db-patches/
+```
+
 # Codex Database Structure
 
 ## Bitmask values
