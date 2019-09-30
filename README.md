@@ -2,7 +2,7 @@
 A series of scripts that merge the [Questie](https://github.com/AeroScripts/QuestieDev) database into the [ClassicCodex](https://github.com/project-classic/ClassicCodex) database.
 
 # Usage
-Running on WSL or Linux or Unix like system, `git` and `lua` need to be installed.
+Running on WSL or Linux or Unix-like system, `git` and `lua` need to be installed.
 
 ```
 # Install git and lua on Ubuntu
