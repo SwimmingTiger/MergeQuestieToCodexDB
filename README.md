@@ -17,7 +17,7 @@ cd "World of Warcraft/_classic_/Interface/AddOns/ClassicCodex/tools"
 ./update-db-patches.sh ../../../../WTF/Account/xxxxxxxxxx#xxx/SavedVariables/MergeQuestieToCodexDB.lua
 ```
 
-Replace `xxxxxxxxxx#xxx` to the real folder name.
+Replace `xxxxxxxxxx#xxx` to the real folder name. If you cannot find the `tools` folder in `ClassicCodex`, please copy it from its github repo.
 
 Then this file will be updated:
 ```
