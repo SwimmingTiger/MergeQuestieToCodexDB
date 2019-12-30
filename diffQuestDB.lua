@@ -1,51 +1,20 @@
-package.path = package.path .. ';../../ClassicCodex/decompressed_db/?.lua;../tmp/?.lua'
-require "utils"
+local ADDON, ns = ...
+local _G = _G
+setfenv(1, ns)
 
--- load db from ClassicCodex
-CodexDB = {
-    ["quests"] = {
-        ["data"] = {}
-    }
-}
-require "quests"
-local oldQuests = deepCopy(CodexDB.quests.data)
-CodexDB = nil
-
--- load db from this repo's tmp dir
-CodexDB = {
-    ["quests"] = {
-        ["data"] = {}
-    }
-}
-require "questie-quests"
-local newQuests = deepCopy(CodexDB.quests.data)
-CodexDB = nil
-
--- output some meta info
-print('-- A script to merge Questie questDB to ClassicCodex')
-printf('-- ClassicCodex git tag: %s, quest num: %d', tostring(arg[1]), tablelen(oldQuests))
-printf('-- Questie git tag: %s, quest num: %d', tostring(arg[2]), tablelen(newQuests))
-print('local D = CodexDB.quests.data')
-
---[[ Compare item/object/unit list of quests and output differences as lua script
-new[questId] = {
-    [parent] = { -- the quest target
-      ["I"] = {itemId, ...},
-      ["O"] = {objectId, ...},
-      ["U"] = {unitId, ...},
-    },
-}]]
 local function compQuestsTarget(questId, new, old, parent, key, firstCall)
     if new[parent] then
         if not old[parent] then
             old[parent] = {}
             if firstCall then
-                printf('D[%d].%s={}', questId, parent)
+                local fmt = (parent == 'end') and "D[%d]['%s']={}" or 'D[%d].%s={}'
+                printf(fmt, questId, parent)
             end
         end
         if new[parent][key] then
             if not listCmp(new[parent][key], old[parent][key]) then
-                printf('D[%d].%s.%s=%s --old: %s', questId, parent, key,
+                local fmt = (parent == 'end') and "D[%d]['%s'].%s=%s --old: %s" or 'D[%d].%s.%s=%s --old: %s'
+                printf(fmt, questId, parent, key,
                     listToString(new[parent][key]),
                     listToString(old[parent][key]))
             end
@@ -79,10 +48,10 @@ end
 local function compQuestsTableIdMin(questId, new, old, key)
     if new[key] then
         if type(old[key]) ~= 'table' then
-            printf('D[%d].%s={["id"]=%d,["min"]=%d} --old: id=%s', questId, key,
+            printf('D[%d].%s={id=%d,min=%d} --old: id=%s', questId, key,
                 new[key].id, new[key].min, tostring(old[key]))
         elseif old[key].id ~= new[key].id or old[key].min ~= new[key].min then
-            printf('D[%d].%s={["id"]=%d,["min"]=%d} --old: id=%d,min=%d', questId, key,
+            printf('D[%d].%s={id=%d,min=%d} --old: id=%d,min=%d', questId, key,
                 new[key].id, new[key].min, old[key].id, old[key].min)
         end
     end
@@ -104,7 +73,7 @@ local function compQuests(questId, new, old)
 
     compQuestsListOrValue(questId, new, old, 'pre', true)
     compQuestsListOrValue(questId, new, old, 'preg')
-    compQuestsValue(questId, new, old, 'next')
+    compQuestsListOrValue(questId, new, old, 'next')
 
     compQuestsListOrValue(questId, new, old, 'excl')
 
@@ -119,21 +88,62 @@ local function compQuests(questId, new, old)
     compQuestsValue(questId, new, old, 'hide')
 end
 
--- sort by quest id
-questIds = {}
-for questId,_ in pairs(newQuests) do
-    table.insert(questIds, questId)
-end
-table.sort(questIds)
+function diffQuestDB()
+    local oldQuests = _G.CodexDB.quests.data
+    local newQuests = ConvDB.quests.data
 
--- Comparing each quest
-for _, questId in pairs(questIds) do
-    new = newQuests[questId]
-    old = oldQuests[questId]
+    local codexVersion = tostring(GetAddOnMetadata('ClassicCodex', 'Version') or '')
+    local questieVersion = tostring(GetAddOnMetadata('Questie', 'Version') or '')
 
-    if old then
-        compQuests(questId, new, old)
-    else
-        printf('-- TODO: convert missing quest[%d] to lua table', questId)
+    -- output some meta info
+    print('-- A script to merge Questie questDB to ClassicCodex')
+    printf('-- ClassicCodex version: %s, quest num: %d', codexVersion, tablelen(oldQuests))
+    printf('-- Questie version: %s, quest num: %d', questieVersion, tablelen(newQuests))
+    print("if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end")
+    print('local D = CodexDB.quests.data')
+
+    --[[ Compare item/object/unit list of quests and output differences as lua script
+    new[questId] = {
+        [parent] = { -- the quest target
+        ["I"] = {itemId, ...},
+        ["O"] = {objectId, ...},
+        ["U"] = {unitId, ...},
+        },
+    }]]
+
+    -- sort by quest id
+    local questIds = {}
+    local questIdIndex = {}
+    for questId,_ in pairs(oldQuests) do
+        if not questIdIndex[questId] then
+            table.insert(questIds, questId)
+            questIdIndex[questId] = true
+        end
     end
+    for questId,_ in pairs(newQuests) do
+        if not questIdIndex[questId] then
+            table.insert(questIds, questId)
+            questIdIndex[questId] = true
+        end
+    end
+    table.sort(questIds)
+
+    -- Comparing each quest
+    for _, questId in pairs(questIds) do
+        local new = deepCopy(newQuests[questId])
+        local old = deepCopy(oldQuests[questId])
+
+        if old then
+            if new then
+                compQuests(questId, new, old)
+            else
+                printf('-- Questie missing quest %d', questId)
+            end
+        else
+            printf('-- TODO: convert missing quest[%d] to lua table', questId)
+        end
+    end
+
+    print('CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}')
+    printf("CodexDB.questiePatchVersion.quest = '%s'", questieVersion)
 end

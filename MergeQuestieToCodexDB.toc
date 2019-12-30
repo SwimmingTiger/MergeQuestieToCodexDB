@@ -1,0 +1,16 @@
+## Interface: 11303
+## Title: MergeQuestieToCodexDB
+## Title-zhCN: 合并Questie数据到Codex
+## Notes: Merge Questie's Database to ClassicCodex
+## Notes-zhCN: 合并Questie的数据库到ClassicCodex
+## Author: SwimmingTiger
+## Version: 1.0
+## LoadOnDemand: 0
+## DefaultState: enabled
+## SavedVariables: CodexDatabasePatch
+
+utils.lua
+loadDB.lua
+convertQuestieQuestDB.lua
+diffQuestDB.lua
+main.lua

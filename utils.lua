@@ -1,4 +1,37 @@
-function printf(s, ...) return print(s:format(...)) end
+local ADDON, ns = ...
+local _G = _G
+setfenv(1, ns)
+
+type = _G.type
+string = _G.string
+table = _G.table
+pairs = _G.pairs
+ipairs = _G.ipairs
+tostring = _G.tostring
+getmetatable = _G.getmetatable
+setmetatable = _G.setmetatable
+next = _G.next
+GetAddOnMetadata = _G.GetAddOnMetadata
+
+-- export the global var MergeQuestieToCodexDB
+_G[ADDON] = ns
+
+function print(...)
+    local args = {...}
+    local size = #args
+    for i,v in ipairs(args) do
+        _G.CodexDatabasePatch = _G.CodexDatabasePatch .. tostring(v)
+        if i ~= size then
+            _G.CodexDatabasePatch = _G.CodexDatabasePatch .. " "
+        end
+    end
+    _G.CodexDatabasePatch = _G.CodexDatabasePatch .. "\n"
+    return _G.print(...)
+end
+
+function printf(s, ...)
+    return print(s:format(...))
+end
 
 function listToString(t, singleSkipBracket, toStringFunction, sortFunction)
     if type(t) ~= 'table' then
