@@ -4,29 +4,22 @@ A Wow Classic addon that merge the [Questie](https://github.com/AeroScripts/Ques
 This addon is only used to generate database patches for ClassicCodex addon authors, not for normal players.
 
 # Usage
-Running on WSL or Linux or Unix-like system, `git` and `lua` need to be installed.
+Install `MergeQuestieToCodexDB`, `ClassicCodex` and `Questie` in your Wow classic client. Then run these command:
 
 ```
-# Install git and lua on Ubuntu
-apt update
-apt install -y git lua5.1
+/run MergeQuestieToCodexDB.run()
+/reload
+```
 
-# Clone repos
-git clone https://github.com/AeroScripts/QuestieDev.git
-git clone https://github.com/SwimmingTiger/ClassicCodex.git
-git clone https://github.com/SwimmingTiger/MergeQuestieToCodexDB.git
+Then run these command in bash (Linux or WSL):
+```
+cd "World of Warcraft/_classic_/Interface/AddOns/ClassicCodex/tools"
+./update-db-patches.sh ../../../../WTF/Account/xxxxxxxxxx#xxx/SavedVariables/MergeQuestieToCodexDB.lua
+```
 
-# Create dirs and export patches
-cd MergeQuestieToCodexDB
-mkdir tmp out
-bash ./exportDatabaseDiff.sh
-
-# You will find the patch files here
-ls ./out/
-
-# Use the new patch files
-cp ./out/* ../ClassicCodex/db-patches/
-ls ../ClassicCodex/db-patches/
+Then this file will be updated:
+```
+World of Warcraft/_classic_/Interface/AddOns/ClassicCodex/db-patches/quests-patch.lua
 ```
 
 # Codex Database Structure
