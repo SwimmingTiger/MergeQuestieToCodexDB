@@ -12,20 +12,23 @@ getmetatable = _G.getmetatable
 setmetatable = _G.setmetatable
 next = _G.next
 GetAddOnMetadata = _G.GetAddOnMetadata
+UnitFactionGroup = _G.UnitFactionGroup
 
 -- export the global var MergeQuestieToCodexDB
 _G[ADDON] = ns
 
 function print(...)
+    local line = ''
     local args = {...}
     local size = #args
     for i,v in ipairs(args) do
-        _G.CodexDatabasePatch = _G.CodexDatabasePatch .. tostring(v)
+        line = line .. tostring(v)
         if i ~= size then
-            _G.CodexDatabasePatch = _G.CodexDatabasePatch .. " "
+            line = line .. " "
         end
     end
-    _G.CodexDatabasePatch = _G.CodexDatabasePatch .. "\n"
+    line = line .. "\n"
+    _G.CodexDatabasePatch.quest = _G.CodexDatabasePatch.quest .. line
     return _G.print(...)
 end
 

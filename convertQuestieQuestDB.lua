@@ -45,6 +45,10 @@ function convertQuestieQuestDB()
             quest.excl = v[k.exclusiveTo]
         end
 
+        if QuestieCorrections.hiddenQuests[questId] then
+            quest.hide = true
+        end
+
         if v[k.questLevel] > 0 then
             quest.lvl = v[k.questLevel]
         end

@@ -8,6 +8,7 @@ function loadDB()
 
     -- Database from Questie
     QuestieDB = _G.QuestieLoader:ImportModule("QuestieDB")
+    QuestieCorrections = _G.QuestieCorrections
 
     -- Converted database from Questie format to ClassicCodex format
     ConvDB = {
@@ -17,5 +18,8 @@ function loadDB()
     }
 
     -- result
-    _G.CodexDatabasePatch = ""
+    if type(_G.CodexDatabasePatch) ~= 'table' then
+        _G.CodexDatabasePatch = {}
+    end
+    _G.CodexDatabasePatch.quest = ''
 end
