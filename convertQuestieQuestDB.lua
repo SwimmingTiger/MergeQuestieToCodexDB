@@ -140,3 +140,62 @@ function convertQuestieQuestDB()
         end
     end
 end
+
+local function regularCoords(coords, result)
+    if coords == nil or type(coords) ~= 'table' then
+        return
+    end
+    if type(coords[1]) == 'number' and type(coords[2]) == 'number' then
+        table.insert(result, coords)
+        return
+    end
+    for _,v in pairs(coords) do
+        regularCoords(v, result, index)
+    end
+end
+
+function convertQuestieUnitDB()
+    local db = ConvDB.units.data
+    local codexDB = _G.CodexDB.units.data
+
+    -- sort by quest id
+    local ids = {}
+    for id,_ in pairs(QuestieDB.npcData) do
+        table.insert(ids, id)
+    end
+    table.sort(ids)
+
+    local k = QuestieDB.npcKeys
+    for _, id in pairs(ids) do
+        local v = deepCopy(QuestieDB.npcData[id])
+        
+        db[id] = {}
+        local unit = db[id]
+        unit.coords = {}
+
+        local respawn = 0
+        if codexDB[id] and codexDB[id].coords and codexDB[id].coords[1] and codexDB[id].coords[1][4] then
+            respawn = codexDB[id].coords[1][4]
+        end
+
+        for zoneID, oriCoords in pairs(v[k.spawns] or {}) do
+            local coords = {}
+            regularCoords(oriCoords, coords)
+            for _, coord in ipairs(coords) do
+                table.insert(unit.coords, {
+                    coord[1], coord[2], zoneID, respawn
+                })
+            end
+        end
+
+        unit.fac = v[k.friendlyToFaction]
+        if v[k.rank] ~= 0 then
+            unit.rnk = tostring(v[k.rank])
+        end
+
+        unit.lvl = tostring(v[k.minLevel])
+        if v[k.minLevel] ~= v[k.maxLevel] then
+            unit.lvl = unit.lvl .. '-' .. tostring(v[k.maxLevel])
+        end
+    end
+end

@@ -11,11 +11,24 @@ tostring = _G.tostring
 getmetatable = _G.getmetatable
 setmetatable = _G.setmetatable
 next = _G.next
+abs = _G.abs
+unpack = _G.unpack
 GetAddOnMetadata = _G.GetAddOnMetadata
 UnitFactionGroup = _G.UnitFactionGroup
 
 -- export the global var MergeQuestieToCodexDB
 _G[ADDON] = ns
+
+debugEnabled = false
+function setDebug(enableDebug)
+    debugEnabled = enableDebug
+end
+
+local printKey = 'other'
+function setPrintKey(key)
+    _G.CodexDatabasePatch[key] = ''
+    printKey = key
+end
 
 function print(...)
     local line = ''
@@ -28,12 +41,14 @@ function print(...)
         end
     end
     line = line .. "\n"
-    _G.CodexDatabasePatch.quest = _G.CodexDatabasePatch.quest .. line
-    return _G.print(...)
+    _G.CodexDatabasePatch[printKey] = _G.CodexDatabasePatch[printKey] .. line
+    if debugEnabled then
+        _G.print(...)
+    end
 end
 
 function printf(s, ...)
-    return print(s:format(...))
+    print(s:format(...))
 end
 
 function listToString(t, singleSkipBracket, toStringFunction, sortFunction)

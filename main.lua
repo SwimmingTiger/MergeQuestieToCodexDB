@@ -2,7 +2,9 @@ local ADDON, ns = ...
 local _G = _G
 setfenv(1, ns)
 
-function run()
+function run(enableDebug)
+    setDebug(enableDebug)
+
     if _G.CodexDB.questiePatchVersion then
         _G.print('ClassicCodex was patched, cannot generate the patch again!')
         _G.print('Please delete the db-patches folder of ClassicCodex and try again.')
@@ -16,4 +18,8 @@ function run()
     loadDB()
     convertQuestieQuestDB()
     diffQuestDB()
+    convertQuestieUnitDB()
+    diffUnitDB()
+
+    _G.print('MergeQuestieToCodexDB Complete. Reload UI to save the change.')
 end

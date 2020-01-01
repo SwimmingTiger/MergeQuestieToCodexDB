@@ -14,6 +14,9 @@ function loadDB()
     ConvDB = {
         ["quests"] = {
             ["data"] = {}
+        },
+        ["units"] = {
+            ["data"] = {}
         }
     }
 
@@ -21,5 +24,4 @@ function loadDB()
     if type(_G.CodexDatabasePatch) ~= 'table' then
         _G.CodexDatabasePatch = {}
     end
-    _G.CodexDatabasePatch.quest = ''
 end
