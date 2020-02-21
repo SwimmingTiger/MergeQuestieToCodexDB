@@ -26,22 +26,13 @@ end
 
 local printKey = 'other'
 function setPrintKey(key)
-    _G.CodexDatabasePatch[key] = ''
+    _G.CodexDatabasePatch[key] = {}
     printKey = key
 end
 
 function print(...)
-    local line = ''
-    local args = {...}
-    local size = #args
-    for i,v in ipairs(args) do
-        line = line .. tostring(v)
-        if i ~= size then
-            line = line .. " "
-        end
-    end
-    line = line .. "\n"
-    _G.CodexDatabasePatch[printKey] = _G.CodexDatabasePatch[printKey] .. line
+    local line = table.concat({...}, ' ')
+    table.insert(_G.CodexDatabasePatch[printKey], line)
     if debugEnabled then
         _G.print(...)
     end
