@@ -1,5 +1,5 @@
 # Merge Questie To Codex DB
-A Wow Classic addon that merge the [Questie](https://github.com/AeroScripts/QuestieDev) database into the [ClassicCodex](https://github.com/project-classic/ClassicCodex) database.
+A Wow Classic addon that merge the [Questie](https://github.com/AeroScripts/QuestieDev) database into the [ClassicCodex](https://github.com/SwimmingTiger/ClassicCodex) database.
 
 This addon is only used to generate database patches for ClassicCodex addon authors, not for normal players.
 
