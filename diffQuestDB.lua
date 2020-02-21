@@ -264,14 +264,17 @@ function diffUnitDB()
         local new = deepCopy(newUnit[id])
         local old = deepCopy(oldUnit[id])
 
-        if old then
-            if new then
-                compUnits(id, new, old)
-            else
-                printf('-- Questie missing unit %d', id)
-            end
+        if old == nil then
+            old = {
+                ["coords"]={},
+            }
+            printf('D[%d]={}', id)
+        end
+
+        if new then
+            compUnits(id, new, old)
         else
-            printf('-- TODO: convert missing unit[%d] to lua table', id)
+            printf('-- Questie missing unit %d', id)
         end
     end
 
