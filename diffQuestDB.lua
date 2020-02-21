@@ -264,17 +264,19 @@ function diffUnitDB()
         local new = deepCopy(newUnit[id])
         local old = deepCopy(oldUnit[id])
 
-        if old == nil then
+        if old == nil and new and new.coords and #new.coords > 0 then
             old = {
                 ["coords"]={},
             }
             printf('D[%d]={}', id)
         end
 
-        if new then
-            compUnits(id, new, old)
-        else
-            printf('-- Questie missing unit %d', id)
+        if old then
+            if new then
+                compUnits(id, new, old)
+            else
+                printf('-- Questie missing unit %d', id)
+            end
         end
     end
 
