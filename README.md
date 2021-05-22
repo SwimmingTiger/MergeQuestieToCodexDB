@@ -45,23 +45,25 @@ World of Warcraft/_classic_/Interface/AddOns/ClassicCodex/db-patches/quests-patc
 ## Bitmask values
 (copied from [Questie wiki](https://github.com/AeroScripts/QuestieDev/wiki/Database-Structure#bitmask-values) and edited)
 
-ClassicCodex stores some information as binary values for some (unknown/historical) reason. The following tables translate the values which you can find in the [database.lua](https://github.com/project-classic/ClassicCodex/blob/1fc3507501bc2584790c9a89a6df17827c354813/database.lua#L20) for example. Combinations of those bitmasks are calcualted via a disjunction (you can use [this JSFiddle](https://jsfiddle.net/o5tu4vn9/2/) for testing combinations).
+ClassicCodex stores some information as binary values for some (unknown/historical) reason. The following tables translate the values which you can find in the [database.lua](https://github.com/SwimmingTiger/ClassicCodex/blob/ffa79cdccff9ebd4f6230351309a5963ff5fe762/database.lua#L20) for example. Combinations of those bitmasks are calcualted via a disjunction (you can use [this JSFiddle](https://jsfiddle.net/o5tu4vn9/2/) for testing combinations).
 
 ### Races
 
-| Race     | Value | Comment        |
-| ---------|:-----:|--------------- |
-| Human    | 1     |                |
-| Orc      | 2     |                |
-| Dwarf    | 4     |                |
-| Nightelf | 8     |                |
-| Undead   | 16    |                |
-| Tauren   | 32    |                |
-| Gnome    | 64    |                |
-| Troll    | 128   |                |
-| Alliance | 77    | =1+4+8+64      |
-| Horde    | 178   | =2+16+32+128   |
-| All      | 255   | =1+2+4+...+128 |
+| Race     | Value | Comment          |
+| ---------|:-----:|---------------   |
+| Human    | 1     |                  |
+| Orc      | 2     |                  |
+| Dwarf    | 4     |                  |
+| Nightelf | 8     |                  |
+| Undead   | 16    |                  |
+| Tauren   | 32    |                  |
+| Gnome    | 64    |                  |
+| Troll    | 128   |                  |
+| BloodElf | 512   |                  |
+| Draenei  | 1024  |                  |
+| Alliance | 1101  | =1+4+8+64+1024   |
+| Horde    | 690   | =2+16+32+128+512 |
+| All      | 1791  | =1+2+4+...+1024  |
 
 ### Classes
 
