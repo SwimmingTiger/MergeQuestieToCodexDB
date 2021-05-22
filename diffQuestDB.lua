@@ -218,7 +218,8 @@ function diffQuestDB()
                 printf('-- Questie missing quest %d', questId)
             end
         else
-            printf('-- TODO: convert missing quest[%d] to lua table', questId)
+            printf('D[%d]={}', questId)
+            compQuests(questId, new, {})
         end
     end
 

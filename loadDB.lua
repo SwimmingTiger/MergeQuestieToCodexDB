@@ -8,7 +8,7 @@ function loadDB()
 
     -- Database from Questie
     QuestieDB = _G.QuestieLoader:ImportModule("QuestieDB")
-    QuestieCorrections = _G.QuestieCorrections
+    QuestieCorrections = _G.QuestieLoader:ImportModule("QuestieCorrections")
 
     -- Converted database from Questie format to ClassicCodex format
     ConvDB = {
