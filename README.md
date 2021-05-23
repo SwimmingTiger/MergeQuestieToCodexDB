@@ -6,7 +6,7 @@ This addon is only used to generate database patches for ClassicCodex addon auth
 # Usage
 Install `MergeQuestieToCodexDB`, `ClassicCodex` and `Questie` in your Wow classic or BCC client.
 
-Then edit the code of `Questie/Database/compiler.lua`, Comment the following lines:
+Then edit the code in `Questie/Database/compiler.lua`, delete or comment the following lines:
 
 ```lua
     print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
