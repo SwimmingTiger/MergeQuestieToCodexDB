@@ -123,7 +123,6 @@ CodexDB["quests"]["data"]={
     ["repu"] = {["id"]=requiredReputationFactionId, ["min"]=minReputationValue},
 
     -- Hide the quest because it can't be picked up at the current stage
-    -- Also included quests related to WoW festive seasons or PVP
     ["hide"] = true,
   },
   ...
@@ -138,3 +137,28 @@ Each field may not exist. For example, `hide` may not exist to indicate that the
 | xxx`Level` | int                 |
 | xxx`Value` | int                 |
 | xxx`Mask`  | int, bitmask values |
+
+### db/units.lua
+```lua
+CodexDB["units"]["data"]={
+  [unitId] = {
+    ["coords"]={
+        [1] = {x, y, zone, respawn},
+        [2] = {...},
+        ...
+    },
+    ["fac"]="AH", -- optional, "A", "H" or "AH"
+    ["lvl"]="24-25", -- example: "25" or "24-26"
+    ["rnk"]="4",
+  },
+  ...
+}
+```
+
+| Variate    | Value Type          |
+| -----------|:-------------------:|
+| xxx`Id`    | int                 |
+| `x`        | float               |
+| `y`        | float               |
+| `zone`     | int                 |
+| `respawn`  | int, seconds        |
