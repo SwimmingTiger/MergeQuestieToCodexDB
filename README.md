@@ -116,7 +116,7 @@ CodexDB["quests"]["data"]={
     ["lvl"] = questLevel,
     ["min"] = questMinLevel,
 
-    -- Cconditions for taking the quest
+    -- Conditions for taking the quest
     ["class"] = playerClassMask,
     ["race"] = playerRaceMask,
     ["skill"] = requiredSkillId or {["id"]=requiredSkillId, ["min"]=minSkillValue},
