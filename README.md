@@ -4,18 +4,27 @@ A Wow Classic addon that merge the [Questie](https://github.com/AeroScripts/Ques
 This addon is only used to generate database patches for ClassicCodex addon authors, not for normal players.
 
 # Usage
+Delete or rename your `WTF` folder first.
+
 Install `MergeQuestieToCodexDB`, `ClassicCodex` and `Questie` in your Wow classic or BCC client.
 
-Then edit the code in `Questie/Database/compiler.lua`, delete or comment the following lines:
+Then edit the code in `Questie/Modules/QuestieInit.lua`, find these lines:
 
 ```lua
-    print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
-    QuestieDBCompiler:CompileNPCs(function(npcBin, npcPtrs)
-      -- Omit a large piece of code here
-    end)
+        coroutine.yield()
+        QuestieCorrections:PreCompile()
+        QuestieDBCompiler:Compile()
 ```
 
-Then log in to the game, choose an alliance character and run the following command after seeing `[3/7] Initializing locale...`:
+Change to this:
+```
+        coroutine.yield()
+        QuestieCorrections:PreCompile()
+        do return end
+        QuestieDBCompiler:Compile()
+```
+
+Then login to the game, choose an alliance character and run the following command after seeing `[3/7] Initializing locale...`:
 
 ```
 /run MergeQuestieToCodexDB.run(); ReloadUI()
