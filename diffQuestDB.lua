@@ -72,8 +72,8 @@ local function coordToString(coord)
 end
 
 local function compCoords(id, new, old, key)
-    local ncrd = new[key]
-    local ocrd = old[key]
+    local ncrd = new[key] or {}
+    local ocrd = old[key] or {}
 
     local add, del = 0, 0
     local result = {}
