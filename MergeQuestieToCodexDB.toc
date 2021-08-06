@@ -12,5 +12,6 @@
 utils.lua
 loadDB.lua
 convertQuestieQuestDB.lua
-diffQuestDB.lua
+diffData.lua
+diffLocale.lua
 main.lua

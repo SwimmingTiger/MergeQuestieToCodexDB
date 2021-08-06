@@ -158,7 +158,7 @@ function convertQuestieUnitDB()
     local db = ConvDB.units.data
     local codexDB = _G.CodexDB.units.data
 
-    -- sort by quest id
+    -- sort by unit id
     local ids = {}
     for id,_ in pairs(QuestieDB.npcData) do
         table.insert(ids, id)
@@ -204,7 +204,7 @@ function convertQuestieObjectDB()
     local db = ConvDB.objects.data
     local codexDB = _G.CodexDB.objects.data
 
-    -- sort by quest id
+    -- sort by object id
     local ids = {}
     for id,_ in pairs(QuestieDB.objectData) do
         table.insert(ids, id)

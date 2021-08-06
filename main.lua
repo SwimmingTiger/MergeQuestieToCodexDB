@@ -22,6 +22,7 @@ function run(enableDebug)
     diffUnitDB()
     convertQuestieObjectDB()
     diffObjectDB()
+    diffObjectLocale()
 
     _G.print('MergeQuestieToCodexDB Complete. Reload UI to save the change.')
 end
