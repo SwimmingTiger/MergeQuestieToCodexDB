@@ -17,7 +17,10 @@ function loadDB()
         },
         ["units"] = {
             ["data"] = {}
-        }
+        },
+        ["objects"] = {
+            ["data"] = {}
+        },
     }
 
     -- result

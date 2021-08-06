@@ -199,3 +199,41 @@ function convertQuestieUnitDB()
         end
     end
 end
+
+function convertQuestieObjectDB()
+    local db = ConvDB.objects.data
+    local codexDB = _G.CodexDB.objects.data
+
+    -- sort by quest id
+    local ids = {}
+    for id,_ in pairs(QuestieDB.objectData) do
+        table.insert(ids, id)
+    end
+    table.sort(ids)
+
+    local k = QuestieDB.objectKeys
+    for _, id in pairs(ids) do
+        local v = deepCopy(QuestieDB.objectData[id])
+        
+        db[id] = {}
+        local object = db[id]
+        object.coords = {}
+
+        local respawn = 0
+        if codexDB[id] and codexDB[id].coords and codexDB[id].coords[1] and codexDB[id].coords[1][4] then
+            respawn = codexDB[id].coords[1][4]
+        end
+
+        for zoneID, oriCoords in pairs(v[k.spawns] or {}) do
+            local coords = {}
+            regularCoords(oriCoords, coords)
+            for _, coord in ipairs(coords) do
+                table.insert(object.coords, {
+                    coord[1], coord[2], zoneID, respawn
+                })
+            end
+        end
+
+        object.fac = codexDB[id] and codexDB[id].fac
+    end
+end

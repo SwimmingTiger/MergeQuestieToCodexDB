@@ -75,6 +75,11 @@ local function compCoords(id, new, old, key)
     local ncrd = new[key] or {}
     local ocrd = old[key] or {}
 
+    if #ncrd == 0 and #ocrd > 0 then
+        printf('-- Questie deleted all %d coords of object %d', #ocrd, id)
+        return
+    end
+
     local add, del = 0, 0
     local result = {}
 
@@ -162,6 +167,12 @@ local function compUnits(id, new, old)
     compString(id, new, old, 'fac')
     compString(id, new, old, 'lvl')
     compString(id, new, old, 'rnk')
+end
+
+-- Compare object differences as lua script
+local function compObjects(id, new, old)
+    compCoords(id, new, old, 'coords')
+    compString(id, new, old, 'fac')
 end
 
 function diffQuestDB()
@@ -283,4 +294,62 @@ function diffUnitDB()
 
     print('CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}')
     printf("CodexDB.questiePatchVersion.unit = '%s'", questieVersion)
+end
+
+function diffObjectDB()
+    setPrintKey('object'..UnitFactionGroup('player'))
+
+    local oldObject = _G.CodexDB.objects.data
+    local newObject = ConvDB.objects.data
+
+    local codexVersion = tostring(GetAddOnMetadata('ClassicCodex', 'Version') or '')
+    local questieVersion = tostring(GetAddOnMetadata('Questie', 'Version') or '')
+
+    -- output some meta info
+    print('-- A script to merge Questie questDB to ClassicCodex')
+    printf('-- ClassicCodex version: %s, object num: %d', codexVersion, tablelen(oldObject))
+    printf('-- Questie version: %s, object num: %d', questieVersion, tablelen(newObject))
+    print("if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end")
+    print('local D = CodexDB.objects.data')
+
+    -- sort by object id
+    local ids = {}
+    local idIndex = {}
+    for id,_ in pairs(oldObject) do
+        if not idIndex[id] then
+            table.insert(ids, id)
+            idIndex[id] = true
+        end
+    end
+    for id,_ in pairs(newObject) do
+        if not idIndex[id] then
+            table.insert(ids, id)
+            idIndex[id] = true
+        end
+    end
+    table.sort(ids)
+
+    -- Comparing each object
+    for _, id in pairs(ids) do
+        local new = deepCopy(newObject[id])
+        local old = deepCopy(oldObject[id])
+
+        if old == nil and new and new.coords and #new.coords > 0 then
+            old = {
+                ["coords"]={},
+            }
+            printf('D[%d]={}', id)
+        end
+
+        if old then
+            if new then
+                compObjects(id, new, old)
+            else
+                printf('-- Questie missing object %d', id)
+            end
+        end
+    end
+
+    print('CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}')
+    printf("CodexDB.questiePatchVersion.object = '%s'", questieVersion)
 end

@@ -20,6 +20,8 @@ function run(enableDebug)
     diffQuestDB()
     convertQuestieUnitDB()
     diffUnitDB()
+    convertQuestieObjectDB()
+    diffObjectDB()
 
     _G.print('MergeQuestieToCodexDB Complete. Reload UI to save the change.')
 end
