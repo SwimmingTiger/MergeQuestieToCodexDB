@@ -42,7 +42,7 @@ function diffObjectLocale()
         if not new[id] then
             --printf('-- Questie missing object loc %d', id)
         elseif new[id][k.name] and not old[id] then
-            printf('D[%d]="%s"', id, new[id][k.name])
+            printf('D[%d]="%s"', id, string.gsub(new[id][k.name], '"', '\\"'))
         end
     end
 
