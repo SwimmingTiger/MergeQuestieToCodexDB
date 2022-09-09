@@ -132,3 +132,38 @@ function valueToTable(value)
     end
     return {value}
 end
+
+
+-- Delay call function
+-- https://wowwiki-archive.fandom.com/wiki/USERAPI_wait
+
+local waitTable = {};
+local waitFrame = nil;
+
+function wait(delay, func, ...)
+  if(type(delay)~="number" or type(func)~="function") then
+    return false;
+  end
+  if(waitFrame == nil) then
+    waitFrame = _G.CreateFrame("Frame","MergeQuestieToCodexDBWaitFrame", UIParent);
+    waitFrame:SetScript("onUpdate",function (self,elapse)
+      local count = #waitTable;
+      local i = 1;
+      while(i<=count) do
+        local waitRecord = table.remove(waitTable,i);
+        local d = table.remove(waitRecord,1);
+        local f = table.remove(waitRecord,1);
+        local p = table.remove(waitRecord,1);
+        if(d>elapse) then
+          table.insert(waitTable,i,{d-elapse,f,p});
+          i = i + 1;
+        else
+          count = count - 1;
+          f(unpack(p));
+        end
+      end
+    end);
+  end
+  table.insert(waitTable,{delay,func,{...}});
+  return true;
+end

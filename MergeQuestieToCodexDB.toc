@@ -1,4 +1,4 @@
-## Interface: 20501
+## Interface: 30400
 ## Title: MergeQuestieToCodexDB
 ## Title-zhCN: 合并Questie数据到Codex
 ## Notes: Merge Questie's Database to ClassicCodex

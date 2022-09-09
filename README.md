@@ -27,26 +27,31 @@ Change to this:
 Then login to the game, choose an alliance character and run the following command after seeing `[3/7] Initializing locale...`:
 
 ```
-/run MergeQuestieToCodexDB.run(); ReloadUI()
+/run MergeQuestieToCodexDB.run()
+/run reload
 ```
 
 Then log out, select a horde character and run the following command again:
 
 ```
-/run MergeQuestieToCodexDB.run(); ReloadUI()
+/run MergeQuestieToCodexDB.run()
+/run reload
 ```
 
 Then exit to the desktop, run these command in bash (Linux or WSL):
 ```
-cd "World of Warcraft/_classic_/Interface/AddOns/ClassicCodex/tools"
-./update-db-patches.sh ../../../../WTF/Account/xxxxxxxxxx#xxx/SavedVariables/MergeQuestieToCodexDB.lua
+cd "World of Warcraft/_classic_/Interface/AddOns/tools"
+bash ./update-db-patches-wotlk.sh ../../../WTF/Account/xxxxxxxxxx#xxx/SavedVariables/MergeQuestieToCodexDB.lua
 ```
 
-Replace `xxxxxxxxxx#xxx` to the real folder name. If you cannot find the `tools` folder in `ClassicCodex`, please copy it from its github repo.
+Replace `xxxxxxxxxx#xxx` to the real folder name. If you cannot find the `tools` folder in `AddOns`, please copy it from [ClassicCodex github repo](https://github.com/SwimmingTiger/ClassicCodex/tree/master/tools).
 
-Then this file will be updated:
+Then these file will be updated:
 ```
-World of Warcraft/_classic_/Interface/AddOns/ClassicCodex/db-patches/quests-patch.lua
+World of Warcraft/_classic_/Interface/AddOns/ClassicCodex-patch/quests-questie-wotlk.lua
+World of Warcraft/_classic_/Interface/AddOns/ClassicCodex-patch/units-questie-wotlk.lua
+World of Warcraft/_classic_/Interface/AddOns/ClassicCodex-patch/objects-questie-wotlk.lua
+World of Warcraft/_classic_/Interface/AddOns/ClassicCodex-patch/objects-loc-wotlk.lua
 ```
 
 # Codex Database Structure
