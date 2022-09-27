@@ -28,14 +28,14 @@ Then login to the game, choose an alliance character and run the following comma
 
 ```
 /run MergeQuestieToCodexDB.run()
-/run reload
+/reload
 ```
 
 Then log out, select a horde character and run the following command again:
 
 ```
 /run MergeQuestieToCodexDB.run()
-/run reload
+/reload
 ```
 
 Then exit to the desktop, run these command in bash (Linux or WSL):
