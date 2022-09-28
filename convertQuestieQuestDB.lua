@@ -88,7 +88,7 @@ function convertQuestieQuestDB()
             end
         end
 
-        if v[k.objectives] and (v[k.objectives][1] or v[k.objectives][2] or v[k.objectives][3]) then
+        if v[k.objectives] and (v[k.objectives][1] or v[k.objectives][2] or v[k.objectives][3] or v[k.objectives][5]) then
             quest.obj = {}
             if v[k.objectives][3] then
                 quest.obj.I = v[k.objectives][3]
@@ -98,6 +98,37 @@ function convertQuestieQuestDB()
             end
             if v[k.objectives][1] then
                 quest.obj.U = getValue1(v[k.objectives][1])
+            end
+            -- killCreditObjective
+            if v[k.objectives][5] then
+                quest.obj.U = quest.obj.U or {}
+                for _, killCredit in ipairs(v[k.objectives][5]) do
+                    for _, uid in ipairs(killCredit[1]) do
+                        table.insert(quest.obj.U, uid)
+                    end
+                end
+            end
+        end
+
+        if v[k.extraObjectives] then
+            quest.obj = quest.obj or {}
+            for _, extObjs in ipairs(v[k.extraObjectives]) do
+                if extObjs[5] then
+                    for _, extObj in ipairs(extObjs[5]) do
+                        if extObj[1] == "monster" then
+                            quest.obj.U = quest.obj.U or {}
+                            table.insert(quest.obj.U, extObj[2])
+                        elseif extObj[1] == "object" then
+                            quest.obj.O = quest.obj.O or {}
+                            table.insert(quest.obj.O, extObj[2])
+                        elseif extObj[1] == "item" then
+                            quest.obj.I = quest.obj.I or {}
+                            table.insert(quest.obj.I, extObj[2])
+                        else
+                            _G.print('unknown extraObjectives: ', extObj[1])
+                        end
+                    end
+                end
             end
         end
 
